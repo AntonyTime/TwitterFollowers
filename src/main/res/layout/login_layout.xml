@@ -9,14 +9,14 @@
     <ImageView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/imageView"
+            android:id="@+id/ivProfile"
             android:src="@drawable/logo"/>
     <TextView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="@string/txt_welcome"
-            android:id="@+id/txtWelcome"
+            android:id="@+id/tvWelcome"
             android:gravity="center_vertical|center_horizontal"
             android:textColor="#ff00abed"
             android:textSize="30sp"
@@ -26,6 +26,7 @@
             android:layout_width="match_parent"
             android:layout_height="70dp"
             android:id="@+id/btnLogin"
-            android:background="@drawable/login_button"/>
+            android:background="@drawable/login_button"
+            android:onClick="login"/>
 
 </LinearLayout>

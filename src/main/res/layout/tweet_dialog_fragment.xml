@@ -23,13 +23,14 @@
             android:hint="@string/txt_post_status"
             android:id="@+id/tweet_text"
             android:layout_gravity="center"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"/>
-    <ImageView
+            android:paddingLeft="40dp"
+            android:paddingRight="40dp"/>
+    <Button
             android:layout_width="320dp"
             android:layout_height="70dp"
-            android:id="@+id/post_tweet"
+            android:id="@+id/btnPostTweetDialog"
             android:layout_gravity="center_horizontal"
-            android:src="@drawable/post_button"
+            android:background="@drawable/post_button"
+            android:layout_marginBottom="15dp"
             />
 </LinearLayout>
