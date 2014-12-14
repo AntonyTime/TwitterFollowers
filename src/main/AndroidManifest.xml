@@ -17,7 +17,7 @@
         </activity>
 
         <activity android:name=".activitys.ProfileActivity"/>
-        <activity android:name=".activitys.ListActivity"/>
+        <activity android:name=".activitys.UnfollowersActivity"/>
 
     </application>
 

@@ -69,10 +69,8 @@ public class ProfileActivity extends Activity {
     }
 
     public void onUnfollowers(View view){
-        Intent intent = new Intent(ProfileActivity.this, ListActivity.class);
+        Intent intent = new Intent(ProfileActivity.this, UnfollowersActivity.class);
         startActivity(intent);
-
-        new GettingID().execute();
     }
 
     public void onPostTweetDialog(View view) {

@@ -1,6 +1,7 @@
 package com.antonytime.twitterfollowers.activitys;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -8,6 +9,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteStatement;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -24,7 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
-public class ListActivity extends Activity  {
+public class UnfollowersActivity extends Activity  {
 
     ListView listView;
     final String LOG_TAG = "myLogs";
@@ -33,6 +35,9 @@ public class ListActivity extends Activity  {
     public static final String UNFOLLOWERS_TABLE = "unfollowers";
     public static SQLiteDatabase db;
     public static long id;
+    UnfollowersAdapter adapter;
+    private Context mContext;
+    private ProgressDialog progress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,16 +49,29 @@ public class ListActivity extends Activity  {
         dbHelper = new DBHelper(this);
         db = dbHelper.getWritableDatabase();
 
+        try {
+            adapter = new UnfollowersAdapter(this, initListData());
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        listView.setAdapter(adapter);
+
     }
 
     private List<Unfollowers> initListData() throws ExecutionException, InterruptedException {
         Cursor c = db.query("unfollowers", null, null, null, null, null, null);
-
         List<Unfollowers> list = new ArrayList<Unfollowers>();
 
-        for (int i = 0; c.moveToNext(); i++) {
-            id = c.getLong(i);
-            list.add(new Unfollowers(new GettingName().execute().get()));
+        if(c.getCount() == 0){
+            list.add(new Unfollowers("Please click update unfollowers"));
+        } else {
+            for (int i = 0; c.moveToNext(); i++) {
+                id = c.getLong(i);
+                list.add(new Unfollowers(new GettingName().execute().get()));
+            }
         }
 
         return list;
@@ -72,8 +90,7 @@ public class ListActivity extends Activity  {
             e.printStackTrace();
         }
 
-        UnfollowersAdapter adapter = new UnfollowersAdapter(this, initListData());
-
+        adapter = new UnfollowersAdapter(this, initListData());
         listView.setAdapter(adapter);
     }
 
@@ -114,10 +131,10 @@ public class ListActivity extends Activity  {
     }
 
     public void saveToDB(List<Long> dataList, String tableName) throws Exception {
-        String deleteQuery = String.format("DELETE FROM %s", tableName);
+        String deleteQuery = String.format("DELETE FROM UNFOLLOWERS");
         db.execSQL(deleteQuery);
 
-        String query = String.format("INSERT INTO %s VALUES(?)", tableName);
+        String query = String.format("replace INTO %s VALUES(?)", tableName);
         SQLiteStatement stmt = db.compileStatement(query);
 
         for (long i : dataList)
@@ -126,7 +143,9 @@ public class ListActivity extends Activity  {
             stmt.execute();
         }
 
-        Toast.makeText(this, "Done", Toast.LENGTH_SHORT).show();
+        Toast toast = Toast.makeText(this, "Done!", Toast.LENGTH_SHORT);
+        toast.setGravity(Gravity.CENTER, 0, 0);
+        toast.show();
     }
 
     public class DBHelper extends SQLiteOpenHelper {

@@ -1,7 +1,7 @@
 package com.antonytime.twitterfollowers.asynctask;
 
 import android.os.AsyncTask;
-import com.antonytime.twitterfollowers.activitys.ListActivity;
+import com.antonytime.twitterfollowers.activitys.UnfollowersActivity;
 import twitter4j.TwitterException;
 
 public class GettingName extends AsyncTask <Void, Void, String> {
@@ -15,7 +15,7 @@ public class GettingName extends AsyncTask <Void, Void, String> {
         String name = null;
 
         try {
-            name = GettingToken.getTwitter().showUser(ListActivity.id).getName();
+            name = GettingToken.getTwitter().showUser(UnfollowersActivity.id).getName();
         } catch (TwitterException e) {
             e.printStackTrace();
         }
