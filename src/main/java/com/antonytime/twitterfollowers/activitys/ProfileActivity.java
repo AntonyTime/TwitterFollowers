@@ -2,13 +2,13 @@ package com.antonytime.twitterfollowers.activitys;
 
 import android.app.*;
 import android.content.Intent;
-import android.graphics.*;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.widget.*;
 import com.antonytime.twitterfollowers.R;
 import com.antonytime.twitterfollowers.asynctask.GettingAccessToken;
+import com.antonytime.twitterfollowers.asynctask.GettingID;
 import com.antonytime.twitterfollowers.asynctask.LoadProfile;
 import com.antonytime.twitterfollowers.asynctask.PostTweet;
 
@@ -68,16 +68,14 @@ public class ProfileActivity extends Activity {
         loadProfile.execute();
     }
 
-    public void signOut(View view) {
-        GettingAccessToken.accessToken = null;
-        GettingAccessToken.secretToken = null;
-
-        Intent intent = new Intent(ProfileActivity.this, LoginActivity.class);
+    public void onUnfollowers(View view){
+        Intent intent = new Intent(ProfileActivity.this, ListActivity.class);
         startActivity(intent);
-        finish();
+
+        new GettingID().execute();
     }
 
-    public void showPostTweetDialog(View view) {
+    public void onPostTweetDialog(View view) {
         tDialog = new Dialog(ProfileActivity.this);
         tDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         tDialog.setContentView(R.layout.tweet_dialog_fragment);
@@ -94,6 +92,15 @@ public class ProfileActivity extends Activity {
         });
 
         tDialog.show();
+    }
+
+    public void onSignOut(View view) {
+        GettingAccessToken.accessToken = null;
+        GettingAccessToken.secretToken = null;
+
+        Intent intent = new Intent(ProfileActivity.this, LoginActivity.class);
+        startActivity(intent);
+        finish();
     }
 
 }
