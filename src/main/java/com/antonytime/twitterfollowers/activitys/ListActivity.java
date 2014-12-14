@@ -46,7 +46,7 @@ public class ListActivity extends Activity  {
 
     }
 
-    private List<Unfollowers> initData() throws ExecutionException, InterruptedException {
+    private List<Unfollowers> initListData() throws ExecutionException, InterruptedException {
         Cursor c = db.query("unfollowers", null, null, null, null, null, null);
 
         List<Unfollowers> list = new ArrayList<Unfollowers>();
@@ -72,7 +72,7 @@ public class ListActivity extends Activity  {
             e.printStackTrace();
         }
 
-        UnfollowersAdapter adapter = new UnfollowersAdapter(this, initData());
+        UnfollowersAdapter adapter = new UnfollowersAdapter(this, initListData());
 
         listView.setAdapter(adapter);
     }

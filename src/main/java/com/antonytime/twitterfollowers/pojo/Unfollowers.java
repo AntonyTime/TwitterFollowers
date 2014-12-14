@@ -1,7 +1,5 @@
 package com.antonytime.twitterfollowers.pojo;
 
-import android.os.AsyncTask;
-
 public class Unfollowers {
 
     private String name;
@@ -12,10 +10,6 @@ public class Unfollowers {
 
     public String getName() {
         return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
 }

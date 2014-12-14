@@ -12,8 +12,8 @@ public class GettingName extends AsyncTask <Void, Void, String> {
 
     @Override
     protected String doInBackground(Void... voids) {
-
         String name = null;
+
         try {
             name = GettingToken.getTwitter().showUser(ListActivity.id).getName();
         } catch (TwitterException e) {
