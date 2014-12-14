@@ -7,16 +7,16 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 import com.antonytime.twitterfollowers.R;
-import com.antonytime.twitterfollowers.pojo.Unfollowers;
+import com.antonytime.twitterfollowers.pojo.Followers;
 
 import java.util.List;
 
 public class UnfollowersAdapter extends BaseAdapter {
 
-    private List<Unfollowers> list;
+    private List<Followers> list;
     private LayoutInflater layoutInflater;
 
-    public UnfollowersAdapter(Context context, List<Unfollowers> list) {
+    public UnfollowersAdapter(Context context, List<Followers> list) {
         this.list = list;
         layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
@@ -43,7 +43,7 @@ public class UnfollowersAdapter extends BaseAdapter {
             view = layoutInflater.inflate(R.layout.item_layout, parent, false);
         }
 
-        Unfollowers unfollowers = getUnfollowerName(position);
+        Followers unfollowers = getUnfollowerName(position);
 
         TextView textView = (TextView) view.findViewById(R.id.textView);
         textView.setText(unfollowers.getName());
@@ -51,8 +51,8 @@ public class UnfollowersAdapter extends BaseAdapter {
         return view;
     }
 
-    private Unfollowers getUnfollowerName(int position){
-        return (Unfollowers) getItem(position);
+    private Followers getUnfollowerName(int position){
+        return (Followers) getItem(position);
     }
 
 }

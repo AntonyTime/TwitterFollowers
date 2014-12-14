@@ -1,7 +1,6 @@
 package com.antonytime.twitterfollowers.activitys;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -13,11 +12,12 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.Toast;
+import com.antonytime.twitterfollowers.DBHelper;
 import com.antonytime.twitterfollowers.R;
 import com.antonytime.twitterfollowers.adapter.UnfollowersAdapter;
 import com.antonytime.twitterfollowers.asynctask.GettingID;
 import com.antonytime.twitterfollowers.asynctask.GettingName;
-import com.antonytime.twitterfollowers.pojo.Unfollowers;
+import com.antonytime.twitterfollowers.pojo.Followers;
 import twitter4j.IDs;
 import twitter4j.TwitterException;
 
@@ -29,20 +29,17 @@ import java.util.concurrent.ExecutionException;
 public class UnfollowersActivity extends Activity  {
 
     ListView listView;
-    final String LOG_TAG = "myLogs";
     private DBHelper dbHelper;
     public static final String FOLLOWERS_TABLE = "followers";
     public static final String UNFOLLOWERS_TABLE = "unfollowers";
     public static SQLiteDatabase db;
     public static long id;
     UnfollowersAdapter adapter;
-    private Context mContext;
-    private ProgressDialog progress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.list_layout);
+        setContentView(R.layout.unfollowers_layout);
 
         listView = (ListView) findViewById(R.id.listView);
 
@@ -61,16 +58,16 @@ public class UnfollowersActivity extends Activity  {
 
     }
 
-    private List<Unfollowers> initListData() throws ExecutionException, InterruptedException {
+    private List<Followers> initListData() throws ExecutionException, InterruptedException {
         Cursor c = db.query("unfollowers", null, null, null, null, null, null);
-        List<Unfollowers> list = new ArrayList<Unfollowers>();
+        List<Followers> list = new ArrayList<Followers>();
 
         if(c.getCount() == 0){
-            list.add(new Unfollowers("Please click update unfollowers"));
+            list.add(new Followers("Please click update unfollowers"));
         } else {
             for (int i = 0; c.moveToNext(); i++) {
                 id = c.getLong(i);
-                list.add(new Unfollowers(new GettingName().execute().get()));
+                list.add(new Followers(new GettingName().execute().get()));
             }
         }
 
@@ -148,24 +145,4 @@ public class UnfollowersActivity extends Activity  {
         toast.show();
     }
 
-    public class DBHelper extends SQLiteOpenHelper {
-
-        public DBHelper(Context context) {
-            // конструктор суперкласса
-            super(context, "DataBase", null, 1);
-        }
-
-        @Override
-        public void onCreate(SQLiteDatabase db) {
-            Log.d(LOG_TAG, "--- onCreate database ---");
-            // создаем таблицу с полями
-            db.execSQL("CREATE TABLE if not exists 'followers' ('id' INTEGER PRIMARY KEY NOT NULL );");
-            db.execSQL("CREATE TABLE if not exists 'unfollowers' ('id' INTEGER PRIMARY KEY NOT NULL );");
-        }
-
-        @Override
-        public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
-        }
-    }
 }

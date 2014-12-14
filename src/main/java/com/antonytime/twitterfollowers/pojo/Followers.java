@@ -1,10 +1,10 @@
 package com.antonytime.twitterfollowers.pojo;
 
-public class Unfollowers {
+public class Followers {
 
     private String name;
 
-    public Unfollowers(String name) {
+    public Followers(String name) {
         this.name = name;
     }
 

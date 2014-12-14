@@ -1,7 +1,5 @@
 package com.antonytime.twitterfollowers.asynctask;
 
-import android.app.ProgressDialog;
-import android.content.Context;
 import android.os.AsyncTask;
 import twitter4j.IDs;
 import twitter4j.TwitterException;

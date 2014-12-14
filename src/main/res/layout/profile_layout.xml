@@ -25,8 +25,20 @@
             android:layout_alignParentStart="true"
             android:layout_below="@+id/tvWelcome"/>
 
+    <Button android:layout_width="320dp"
+            android:layout_height="70dp"
+            android:id="@+id/btnFollowers"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/followers_button"
+            android:layout_marginBottom="100dp"
+            android:layout_above="@+id/btnPostTweet"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:onClick="onFollowers"/>
 
-        <Button android:layout_width="320dp"
+    <Button android:layout_width="320dp"
             android:layout_height="70dp"
             android:id="@+id/btnUnfollowers"
             android:layout_gravity="center_horizontal"
@@ -36,7 +48,8 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true" android:onClick="onUnfollowers"/>
+            android:layout_alignParentEnd="true"
+            android:onClick="onUnfollowers"/>
 
     <Button android:layout_width="320dp"
             android:layout_height="70dp"
@@ -60,10 +73,13 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true" android:onClick="onSignOut"/>
-        <ImageView android:id="@+id/imageView" android:layout_width="75dp" android:layout_height="75dp"
-                   android:layout_gravity="center"
-                   android:layout_alignParentTop="true" android:layout_alignParentRight="true"
-                   android:layout_alignParentEnd="true"/>
+            android:layout_alignParentEnd="true"
+            android:onClick="onSignOut"/>
+
+    <ImageView
+            android:id="@+id/imageView" android:layout_width="75dp" android:layout_height="75dp"
+            android:layout_gravity="center"
+            android:layout_alignParentTop="true" android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"/>
 
 </RelativeLayout>

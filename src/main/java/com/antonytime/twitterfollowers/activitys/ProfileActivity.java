@@ -68,6 +68,11 @@ public class ProfileActivity extends Activity {
         loadProfile.execute();
     }
 
+    public void onFollowers(View view){
+        Intent intent = new Intent(ProfileActivity.this, FollowersActivity.class);
+        startActivity(intent);
+    }
+
     public void onUnfollowers(View view){
         Intent intent = new Intent(ProfileActivity.this, UnfollowersActivity.class);
         startActivity(intent);

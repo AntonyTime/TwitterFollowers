@@ -18,6 +18,7 @@
 
         <activity android:name=".activitys.ProfileActivity"/>
         <activity android:name=".activitys.UnfollowersActivity"/>
+        <activity android:name=".activitys.FollowersActivity"/>
 
     </application>
 
