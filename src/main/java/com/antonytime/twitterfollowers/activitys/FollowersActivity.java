@@ -42,7 +42,7 @@ public class FollowersActivity extends Activity {
             e.printStackTrace();
         }
 
-        listView.setAdapter(adapter);
+//        listView.setAdapter(adapter);
 
     }
 
@@ -53,7 +53,7 @@ public class FollowersActivity extends Activity {
         if(c.getCount() == 0){
             list.add(new Followers("Please click update followers"));
         } else {
-            while (c.moveToNext()) {
+            while (c.moveToFirst()) {
                 list.add(new Followers(new GettingName().execute().get()));
             }
         }
@@ -63,8 +63,8 @@ public class FollowersActivity extends Activity {
 
     public void onUpdateFollowers(View view) throws ExecutionException, InterruptedException {
 
-        adapter = new UnfollowersAdapter(this, initListData());
-        listView.setAdapter(adapter);
+//        adapter = new UnfollowersAdapter(this, initListData());
+//        listView.setAdapter(adapter);
     }
 
 }
