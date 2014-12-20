@@ -34,13 +34,13 @@ public class FollowersActivity extends Activity {
         dbHelper = new DBHelper(this);
         db = dbHelper.getWritableDatabase();
 
-        try {
-            adapter = new UnfollowersAdapter(this, initListData());
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            adapter = new UnfollowersAdapter(this, initListData());
+//        } catch (ExecutionException e) {
+//            e.printStackTrace();
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
 
 //        listView.setAdapter(adapter);
 
