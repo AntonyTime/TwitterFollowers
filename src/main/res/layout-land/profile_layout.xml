@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent" android:padding="20dp">
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/txt_welcome_profile"
+            android:id="@+id/tvWelcome"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:textColor="#ff00abed"
+            android:textSize="30sp"/>
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/txt_profile"
+            android:id="@+id/tvProfileName"
+            android:textColor="#ff00abed"
+            android:textSize="25sp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/tvWelcome"/>
+
+        <Button android:layout_width="270dp"
+            android:layout_height="70dp"
+            android:id="@+id/btnUnfollowers"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/unfollowers_button"
+            android:layout_marginBottom="15dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:onClick="onUnfollowers"
+            android:layout_above="@+id/btnLogout"/>
+
+        <Button android:layout_width="270dp"
+            android:layout_height="70dp"
+            android:id="@+id/btnLogout"
+            android:background="@drawable/signout_button"
+            android:onClick="onSignOut"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"/>
+
+    <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            android:layout_gravity="center"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"/>
+
+        <Button
+                android:layout_width="270dp"
+                android:layout_height="70dp"
+                android:id="@+id/button2"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/post_button"
+                android:onClick="onPostTweetDialog"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"/>
+
+        <Button android:layout_width="270dp"
+                android:layout_height="70dp"
+                android:id="@+id/button3"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/followers_button"
+                android:onClick="onFollowers"
+                android:layout_alignTop="@+id/btnUnfollowers"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"/>
+</RelativeLayout>
