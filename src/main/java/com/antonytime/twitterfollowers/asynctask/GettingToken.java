@@ -1,6 +1,7 @@
 package com.antonytime.twitterfollowers.asynctask;
 
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -27,6 +28,7 @@ public class GettingToken extends AsyncTask<String, String, String> {
     private String oauth_verifier;
     private Dialog auth_dialog;
     private Context mContext;
+    private ProgressDialog progress;
 
     public RequestToken getRequestToken() {
         return requestToken;
@@ -50,6 +52,16 @@ public class GettingToken extends AsyncTask<String, String, String> {
 
     public GettingToken self(){
         return this;
+    }
+
+    @Override
+    protected void onPreExecute() {
+        super.onPreExecute();
+        progress = new ProgressDialog(getContext());
+        progress.setMessage("Please wait ...");
+        progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progress.setIndeterminate(true);
+        progress.show();
     }
 
     @Override
@@ -110,10 +122,11 @@ public class GettingToken extends AsyncTask<String, String, String> {
                     }
                 }
             });
-
+            progress.hide();
             auth_dialog.show();
             auth_dialog.setCancelable(true);
         }else{
+            progress.hide();
             Toast.makeText(getContext(), "Sorry !, Network Error or Invalid Credentials", Toast.LENGTH_SHORT).show();
         }
     }

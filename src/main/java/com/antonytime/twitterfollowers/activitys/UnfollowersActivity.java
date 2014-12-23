@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.antonytime.twitterfollowers.DBHelper;
 import com.antonytime.twitterfollowers.R;
 import com.antonytime.twitterfollowers.adapter.UnfollowersAdapter;
+import com.antonytime.twitterfollowers.asynctask.GettingFollowersList;
 import com.antonytime.twitterfollowers.asynctask.GettingID;
 import com.antonytime.twitterfollowers.asynctask.GettingName;
 import com.antonytime.twitterfollowers.pojo.Followers;
@@ -55,7 +56,6 @@ public class UnfollowersActivity extends Activity  {
         }
 
         listView.setAdapter(adapter);
-
     }
 
     private List<Followers> initListData() throws ExecutionException, InterruptedException {
@@ -63,7 +63,7 @@ public class UnfollowersActivity extends Activity  {
         List<Followers> list = new ArrayList<Followers>();
 
         if(c.getCount() == 0){
-            list.add(new Followers("Please click update unfollowers"));
+            list.add(new Followers("No unfollowers"));
         } else {
             for (int i = 0; c.moveToNext(); i++) {
                 id = c.getLong(i);
@@ -86,6 +86,9 @@ public class UnfollowersActivity extends Activity  {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        GettingFollowersList gettingFollowersList = new GettingFollowersList();
+        gettingFollowersList.execute();
 
         adapter = new UnfollowersAdapter(this, initListData());
         listView.setAdapter(adapter);
