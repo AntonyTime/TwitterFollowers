@@ -4,7 +4,6 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
-import com.antonytime.twitterfollowers.SharedData;
 import com.antonytime.twitterfollowers.activitys.LoginActivity;
 import com.antonytime.twitterfollowers.activitys.ProfileActivity;
 import twitter4j.TwitterException;
@@ -83,7 +82,7 @@ public class GettingAccessToken extends AsyncTask<String, String, Boolean> {
     @Override
     protected void onPostExecute(Boolean response) {
         if(response){
-            progress.hide();
+            progress.dismiss();
             Intent intent = new Intent(getContext(), ProfileActivity.class);
             intent.putExtra("token", token);
             intent.putExtra("secretToken", secretToken);

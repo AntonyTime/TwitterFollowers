@@ -2,27 +2,23 @@ package com.antonytime.twitterfollowers.activitys;
 
 import android.app.Activity;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
-import com.antonytime.twitterfollowers.DBHelper;
+import android.widget.TextView;
+import com.antonytime.twitterfollowers.Follower;
 import com.antonytime.twitterfollowers.R;
-import com.antonytime.twitterfollowers.adapter.UnfollowersAdapter;
-import com.antonytime.twitterfollowers.asynctask.GettingName;
-import com.antonytime.twitterfollowers.pojo.Followers;
+import com.antonytime.twitterfollowers.adapter.FollowerAdapter;
+import com.antonytime.twitterfollowers.asynctask.GettingFollowers;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 public class FollowersActivity extends Activity {
 
-    ListView listView;
-    private DBHelper dbHelper;
-    public static SQLiteDatabase db;
-    public static long id;
-    UnfollowersAdapter adapter;
+    private ListView listView;
+    private TextView count;
+    private FollowerAdapter adapter;
+    private Cursor c = ProfileActivity.db.query("followers", null, null, null, null, null, null);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,41 +26,31 @@ public class FollowersActivity extends Activity {
         setContentView(R.layout.followers_layout);
 
         listView = (ListView) findViewById(R.id.listView);
+        count = (TextView) findViewById(R.id.count);
 
-        dbHelper = new DBHelper(this);
-        db = dbHelper.getWritableDatabase();
+        count.setText("Number of followers: " + c.getCount());
 
-        try {
-            adapter = new UnfollowersAdapter(this, initListData());
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
+        adapter = new FollowerAdapter(this, initDataListView());
         listView.setAdapter(adapter);
-
     }
 
-    private List<Followers> initListData() throws ExecutionException, InterruptedException {
-        Cursor c = db.query("followers", null, null, null, null, null, null);
-        List<Followers> list = new ArrayList<Followers>();
+    private ArrayList<Follower> initDataListView() {
+        Cursor c = ProfileActivity.db.query("followers", null, null, null, null, null, null);
+        ArrayList<Follower> followers = new ArrayList<Follower>();
 
-        if(c.getCount() == 0){
-            list.add(new Followers("Please click update followers"));
-        } else {
-            while (c.moveToFirst()) {
-                list.add(new Followers(new GettingName().execute().get()));
-            }
+        while (c.moveToNext()) {
+            followers.add(new Follower(c.getLong(0), c.getString(1)));
         }
 
-        return list;
+        count.setText("Number of followers: " + c.getCount());
+
+        return followers;
     }
 
-    public void onUpdateFollowers(View view) throws ExecutionException, InterruptedException {
-
-//        adapter = new UnfollowersAdapter(this, initListData());
-//        listView.setAdapter(adapter);
+    public void onUpdateFollowers(View view) throws Exception {
+        GettingFollowers gettingFollowers = new GettingFollowers();
+        gettingFollowers.setContext(this);
+        gettingFollowers.execute();
     }
 
 }

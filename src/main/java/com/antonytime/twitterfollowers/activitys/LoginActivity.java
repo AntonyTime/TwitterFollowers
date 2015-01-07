@@ -1,6 +1,6 @@
 package com.antonytime.twitterfollowers.activitys;
 
-import android.app.*;
+import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -26,5 +26,3 @@ public class LoginActivity extends Activity {
     }
 
 }
-
-

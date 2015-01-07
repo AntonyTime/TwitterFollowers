@@ -6,6 +6,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.SystemClock;
 import android.util.Log;
 import android.view.Window;
 import android.webkit.WebView;
@@ -122,11 +123,12 @@ public class GettingToken extends AsyncTask<String, String, String> {
                     }
                 }
             });
-            progress.hide();
+            progress.dismiss();
             auth_dialog.show();
             auth_dialog.setCancelable(true);
         }else{
-            progress.hide();
+            SystemClock.sleep(1000);
+            progress.dismiss();
             Toast.makeText(getContext(), "Sorry !, Network Error or Invalid Credentials", Toast.LENGTH_SHORT).show();
         }
     }

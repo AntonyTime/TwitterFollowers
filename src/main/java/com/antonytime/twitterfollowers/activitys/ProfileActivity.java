@@ -1,14 +1,19 @@
 package com.antonytime.twitterfollowers.activitys;
 
-import android.app.*;
+import android.app.Activity;
+import android.app.Dialog;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
-import android.widget.*;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
+import com.antonytime.twitterfollowers.DBHelper;
 import com.antonytime.twitterfollowers.R;
 import com.antonytime.twitterfollowers.asynctask.GettingAccessToken;
-import com.antonytime.twitterfollowers.asynctask.GettingID;
 import com.antonytime.twitterfollowers.asynctask.LoadProfile;
 import com.antonytime.twitterfollowers.asynctask.PostTweet;
 
@@ -26,6 +31,8 @@ public class ProfileActivity extends Activity {
     private String secretToken;
     private String name;
     private String image_url;
+    public static DBHelper dbHelper;
+    public static SQLiteDatabase db;
 
     public static TextView getProf_name() {
         return prof_name;
@@ -66,6 +73,9 @@ public class ProfileActivity extends Activity {
         LoadProfile loadProfile = new LoadProfile();
         loadProfile.setContext(this);
         loadProfile.execute();
+
+        dbHelper = new DBHelper(this);
+        db = dbHelper.getWritableDatabase();
     }
 
     public void onFollowers(View view){

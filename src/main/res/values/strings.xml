@@ -6,4 +6,6 @@
     <string name="txt_unfollowers">Unfollowers</string>
     <string name="txt_post_status">Post your status here…</string>
     <string name="txt_followers">Followers</string>
+    <string name="txt_number_of_followers">Number of followers: 0</string>
+    <string name="txt_number_of_unfollowers">Number of unfollowers: 0</string>
 </resources>

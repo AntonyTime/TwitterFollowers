@@ -18,6 +18,8 @@ public class PostTweet extends AsyncTask<String, String, String> {
     private ProgressDialog progress;
     private String tweetText;
 
+    GettingAccessToken gettingAccessToken = new GettingAccessToken();
+
     public Context getContext() {
         return mContext;
     }
@@ -43,7 +45,7 @@ public class PostTweet extends AsyncTask<String, String, String> {
         builder.setOAuthConsumerKey(SharedData.getConsumerKey());
         builder.setOAuthConsumerSecret(SharedData.getConsumerSecret());
 
-        AccessToken accessToken = new AccessToken(GettingAccessToken.getToken(), GettingAccessToken.getSecretToken());
+        AccessToken accessToken = new AccessToken(gettingAccessToken.getToken(), gettingAccessToken.getSecretToken());
         Twitter twitter = new TwitterFactory(builder.build()).getInstance(accessToken);
 
         try {
@@ -64,7 +66,7 @@ public class PostTweet extends AsyncTask<String, String, String> {
             ProfileActivity.gettDialog().dismiss();
         }else{
             progress.dismiss();
-            Toast.makeText(getContext(), "Error while tweeting !", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "Error while tweeting!", Toast.LENGTH_SHORT).show();
             ProfileActivity.gettDialog().dismiss();
         }
     }

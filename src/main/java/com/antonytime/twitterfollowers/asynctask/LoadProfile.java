@@ -4,7 +4,6 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.*;
 import android.os.AsyncTask;
-
 import com.antonytime.twitterfollowers.activitys.ProfileActivity;
 
 import java.io.InputStream;
@@ -58,7 +57,6 @@ public class LoadProfile extends AsyncTask<String, String, Bitmap> {
         ProfileActivity.getProf_img().setImageBitmap(image_circle);
         ProfileActivity.getProf_name().setText(GettingAccessToken.getName());
 
-        progress.hide();
         progress.dismiss();
     }
 }

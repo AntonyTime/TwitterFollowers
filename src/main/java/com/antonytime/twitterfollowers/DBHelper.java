@@ -7,19 +7,18 @@ import android.util.Log;
 
 public class DBHelper extends SQLiteOpenHelper {
 
-    final String LOG_TAG = "myLogs";
+    private final String LOG_TAG = "myLogs";
 
     public DBHelper(Context context) {
-
         super(context, "DataBase", null, 1);
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        Log.d(LOG_TAG, "--- onCreate database ---");
+        Log.d(LOG_TAG, "--- Created database ---");
 
-        db.execSQL("CREATE TABLE if not exists 'followers' ('id' INTEGER PRIMARY KEY NOT NULL);");
-        db.execSQL("CREATE TABLE if not exists 'unfollowers' ('id' INTEGER PRIMARY KEY NOT NULL);");
+        db.execSQL("CREATE TABLE if not exists 'followers' ('id' INTEGER PRIMARY KEY NOT NULL, 'name' STRING);");
+        db.execSQL("CREATE TABLE if not exists 'unfollowers' ('id' INTEGER PRIMARY KEY NOT NULL, 'name' STRING);");
     }
 
     @Override
