@@ -9,6 +9,7 @@ import android.widget.TextView;
 import com.antonytime.twitterfollowers.Follower;
 import com.antonytime.twitterfollowers.R;
 import com.antonytime.twitterfollowers.adapter.FollowerAdapter;
+import com.antonytime.twitterfollowers.asynctask.GettingUnfollowers;
 
 import java.util.ArrayList;
 
