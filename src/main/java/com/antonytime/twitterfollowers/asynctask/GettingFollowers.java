@@ -3,7 +3,10 @@ package com.antonytime.twitterfollowers.asynctask;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.database.sqlite.SQLiteStatement;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
+import android.os.Environment;
 import android.view.Gravity;
 import android.widget.Toast;
 import com.antonytime.twitterfollowers.Follower;
@@ -13,12 +16,19 @@ import twitter4j.ResponseList;
 import twitter4j.TwitterException;
 import twitter4j.User;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 import java.util.ArrayList;
 
-public class GettingFollowers extends AsyncTask <Void, Void, ResponseList<User>> {
+public class GettingFollowers extends AsyncTask <Void, Void, ArrayList<Follower>> {
 
     private ProgressDialog progress;
     private Context mContext;
+    private Bitmap bitmap;
+
 
     public Context getContext() {
         return mContext;
@@ -39,8 +49,8 @@ public class GettingFollowers extends AsyncTask <Void, Void, ResponseList<User>>
     }
 
     @Override
-    protected ResponseList<User> doInBackground(Void... params) {
-        ResponseList<User> followersListFromServer = null;
+    protected ArrayList<Follower> doInBackground(Void... params) {
+        ResponseList<User> userFollowersListFromServer = null;
 
         try {
             long userID = GettingToken.getTwitter().getId();
@@ -48,36 +58,68 @@ public class GettingFollowers extends AsyncTask <Void, Void, ResponseList<User>>
 
             IDs ids = GettingToken.getTwitter().getFollowersIDs(userID, cursor);
 
-            followersListFromServer = GettingToken.getTwitter().lookupUsers(ids.getIDs());
+            userFollowersListFromServer = GettingToken.getTwitter().lookupUsers(ids.getIDs());
+
         } catch (TwitterException e) {
             e.printStackTrace();
+        }
+
+        ArrayList<Follower> followersListFromServer = new ArrayList<Follower>();
+
+        for (User user : userFollowersListFromServer) {
+            Follower follower = new Follower();
+
+            follower.setId(user.getId());
+            follower.setName(user.getScreenName());
+
+            try {
+                bitmap = BitmapFactory.decodeStream((InputStream) new URL(user.getOriginalProfileImageURL()).getContent());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            saveBitmap(bitmap,user.getId());
+
+            followersListFromServer.add(follower);
         }
 
         return followersListFromServer;
     }
 
     @Override
-    protected void onPostExecute(ResponseList<User> result) {
+    protected void onPostExecute(ArrayList<Follower> result) {
         super.onPostExecute(result);
 
-        ArrayList<Follower> followersListFromServer = new ArrayList<Follower>();
-
-        for (User user : result) {
-            Follower follower = new Follower();
-
-            follower.setId(user.getId());
-            follower.setName(user.getScreenName());
-
-            followersListFromServer.add(follower);
-        }
-
         try {
-            saveToDB(followersListFromServer, "followers", getContext());
+            saveToDB(result, "followers", getContext());
         } catch (Exception e) {
             e.printStackTrace();
         }
 
         progress.dismiss();
+    }
+
+    public long saveBitmap(Bitmap bitmap,long imageId){
+        String root = Environment.getExternalStorageDirectory().toString();
+        File myDir = new File(root + "/TwitterFollowers/saved_profiles_images");
+        myDir.mkdirs();
+
+        String fname = "Image-"+ imageId++ +".jpg";
+
+        File file = new File (myDir, fname);
+        if (file.exists ()) file.delete ();
+
+        try {
+            FileOutputStream out = new FileOutputStream(file);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 10, out);
+            out.flush();
+            out.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return imageId;
     }
 
     public void saveToDB(ArrayList<Follower> dataList, String tableName, Context context) throws Exception {

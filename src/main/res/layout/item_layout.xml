@@ -6,9 +6,12 @@
     <TextView
             android:id="@+id/name"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="45dp"
             android:textColor="#ff00abed"
-            android:textSize="20dp" android:text="Empty database"/>
+            android:textSize="20dp"
+            android:text="Empty database"
+            android:layout_toStartOf="@+id/prof_image"
+            android:layout_toLeftOf="@+id/prof_image"/>
 
     <TextView
             android:id="@+id/id"
@@ -19,7 +22,19 @@
             android:lines="3"
             android:marqueeRepeatLimit="marquee_forever"
             android:textColor="#ff00abed"
-            android:textSize="15dp" android:text="123"/>
+            android:textSize="15dp"
+            android:text="123"
+            android:layout_toLeftOf="@+id/prof_image"
+            android:layout_toStartOf="@+id/prof_image"/>
+
+    <ImageView
+            android:id="@+id/prof_image"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            android:layout_gravity="center"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"/>
 
 </RelativeLayout>
 

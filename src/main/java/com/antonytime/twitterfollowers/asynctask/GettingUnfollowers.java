@@ -9,7 +9,6 @@ import android.view.Gravity;
 import android.widget.Toast;
 import com.antonytime.twitterfollowers.Follower;
 import com.antonytime.twitterfollowers.activitys.ProfileActivity;
-import com.antonytime.twitterfollowers.asynctask.GettingToken;
 import twitter4j.IDs;
 import twitter4j.ResponseList;
 import twitter4j.TwitterException;
