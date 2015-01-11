@@ -101,7 +101,7 @@ public class GettingFollowers extends AsyncTask <Void, Void, ArrayList<Follower>
 
     public long saveBitmap(Bitmap bitmap,long imageId){
         String root = Environment.getExternalStorageDirectory().toString();
-        File myDir = new File(root + "/TwitterFollowers/saved_profiles_images");
+        File myDir = new File(root + "/TwitterFollowers/media/user photos");
         myDir.mkdirs();
 
         String fname = "Image-"+ imageId++ +".jpg";

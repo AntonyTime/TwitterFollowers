@@ -112,6 +112,7 @@ public class GettingToken extends AsyncTask<String, String, String> {
                         oauth_verifier = uri.getQueryParameter("oauth_verifier");
 
                         auth_dialog.dismiss();
+
                         GettingAccessToken gettingAccessToken = new GettingAccessToken();
                         gettingAccessToken.setContext(getContext());
                         gettingAccessToken.setGettingToken(self());

@@ -5,16 +5,17 @@ import android.content.Context;
 import android.graphics.*;
 import android.os.AsyncTask;
 import com.antonytime.twitterfollowers.activitys.ProfileActivity;
+import twitter4j.User;
 
 import java.io.InputStream;
 import java.net.URL;
-
 
 public class LoadProfile extends AsyncTask<String, String, Bitmap> {
 
     private Context mContext;
     private ProgressDialog progress;
     private Bitmap bitmap;
+    private String name;
 
     public Context getContext() {
         return mContext;
@@ -37,7 +38,9 @@ public class LoadProfile extends AsyncTask<String, String, Bitmap> {
     @Override
     protected Bitmap doInBackground(String... args) {
         try {
-            bitmap = BitmapFactory.decodeStream((InputStream) new URL(GettingAccessToken.getImage_url()).getContent());
+            User user = GettingToken.getTwitter().showUser(GettingAccessToken.accessToken.getUserId());
+            name = user.getName();
+            bitmap = BitmapFactory.decodeStream((InputStream) new URL(user.getOriginalProfileImageURL()).getContent());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -55,7 +58,7 @@ public class LoadProfile extends AsyncTask<String, String, Bitmap> {
         Canvas c = new Canvas(image_circle);
         c.drawCircle(image.getWidth() / 2, image.getHeight() / 2, image.getWidth() / 2, paint);
         ProfileActivity.getProf_img().setImageBitmap(image_circle);
-        ProfileActivity.getProf_name().setText(GettingAccessToken.getName());
+        ProfileActivity.getProf_name().setText(name);
 
         progress.dismiss();
     }

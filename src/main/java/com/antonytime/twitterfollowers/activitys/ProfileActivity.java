@@ -13,7 +13,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import com.antonytime.twitterfollowers.DBHelper;
 import com.antonytime.twitterfollowers.R;
-import com.antonytime.twitterfollowers.asynctask.GettingAccessToken;
 import com.antonytime.twitterfollowers.asynctask.LoadProfile;
 import com.antonytime.twitterfollowers.asynctask.PostTweet;
 
@@ -27,10 +26,6 @@ public class ProfileActivity extends Activity {
     private Button postTweet;
     private Button signout;
     private Button postTweetDialog;
-    private String token;
-    private String secretToken;
-    private String name;
-    private String image_url;
     public static DBHelper dbHelper;
     public static SQLiteDatabase db;
 
@@ -46,12 +41,12 @@ public class ProfileActivity extends Activity {
         return tweet_text;
     }
 
-    public ProfileActivity self(){
-        return this;
+    public static Dialog getDialog() {
+        return tDialog;
     }
 
-    public static Dialog gettDialog() {
-        return tDialog;
+    public ProfileActivity self(){
+        return this;
     }
 
     @Override
@@ -64,11 +59,6 @@ public class ProfileActivity extends Activity {
         unfollowers = (Button) findViewById(R.id.btnUnfollowers);
         postTweet = (Button) findViewById(R.id.btnPostTweet);
         signout = (Button) findViewById(R.id.btnLogout);
-
-        token = getIntent().getStringExtra("token");
-        secretToken = getIntent().getStringExtra("secretToken");
-        name = getIntent().getStringExtra("name");
-        image_url = getIntent().getStringExtra("image_url");
 
         LoadProfile loadProfile = new LoadProfile();
         loadProfile.setContext(this);
@@ -108,9 +98,6 @@ public class ProfileActivity extends Activity {
     }
 
     public void onSignOut(View view) {
-        GettingAccessToken.accessToken = null;
-        GettingAccessToken.secretToken = null;
-
         Intent intent = new Intent(ProfileActivity.this, LoginActivity.class);
         startActivity(intent);
         finish();

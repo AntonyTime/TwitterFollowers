@@ -19,10 +19,9 @@ public class LoginActivity extends Activity {
         login = (Button) findViewById(R.id.btnLogin);
     }
 
-    public void login(View view){
+    public void login(View view) {
         GettingToken gettingToken = new GettingToken();
         gettingToken.setContext(this);
         gettingToken.execute();
     }
-
 }

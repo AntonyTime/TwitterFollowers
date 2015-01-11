@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AbsListView;
 import android.widget.ListView;
 import android.widget.TextView;
 import com.antonytime.twitterfollowers.Follower;
@@ -33,6 +32,7 @@ public class FollowersActivity extends Activity {
 
         adapter = new FollowerAdapter(this, initDataListView());
         listView.setAdapter(adapter);
+
     }
 
     private ArrayList<Follower> initDataListView() {

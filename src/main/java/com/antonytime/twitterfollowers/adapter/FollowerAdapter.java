@@ -80,7 +80,7 @@ public class FollowerAdapter extends BaseAdapter{
 
         try {
             String root = Environment.getExternalStorageDirectory().toString();
-            in = new FileInputStream(root + "/TwitterFollowers/saved_profiles_images/Image-"+ imageId + ".jpg");
+            in = new FileInputStream(root + "/TwitterFollowers/media/user photos/Image-"+ imageId + ".jpg");
             buf = new BufferedInputStream(in);
             bMap = BitmapFactory.decodeStream(buf);
 

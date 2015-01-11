@@ -4,21 +4,14 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.widget.Toast;
-import com.antonytime.twitterfollowers.SharedData;
 import com.antonytime.twitterfollowers.activitys.ProfileActivity;
-import twitter4j.Twitter;
 import twitter4j.TwitterException;
-import twitter4j.TwitterFactory;
-import twitter4j.auth.AccessToken;
-import twitter4j.conf.ConfigurationBuilder;
 
 public class PostTweet extends AsyncTask<String, String, String> {
 
     private Context mContext;
     private ProgressDialog progress;
     private String tweetText;
-
-    GettingAccessToken gettingAccessToken = new GettingAccessToken();
 
     public Context getContext() {
         return mContext;
@@ -41,15 +34,8 @@ public class PostTweet extends AsyncTask<String, String, String> {
 
     @Override
     protected String doInBackground(String... args) {
-        ConfigurationBuilder builder = new ConfigurationBuilder();
-        builder.setOAuthConsumerKey(SharedData.getConsumerKey());
-        builder.setOAuthConsumerSecret(SharedData.getConsumerSecret());
-
-        AccessToken accessToken = new AccessToken(gettingAccessToken.getToken(), gettingAccessToken.getSecretToken());
-        Twitter twitter = new TwitterFactory(builder.build()).getInstance(accessToken);
-
         try {
-            twitter4j.Status response = twitter.updateStatus(tweetText);
+            twitter4j.Status response = GettingToken.getTwitter().updateStatus(tweetText);
             return response.toString();
         } catch (TwitterException e) {
             e.printStackTrace();
@@ -63,11 +49,11 @@ public class PostTweet extends AsyncTask<String, String, String> {
         if(res != null){
             progress.dismiss();
             Toast.makeText(getContext(), "Tweet Sucessfully Posted", Toast.LENGTH_SHORT).show();
-            ProfileActivity.gettDialog().dismiss();
+            ProfileActivity.getDialog().dismiss();
         }else{
             progress.dismiss();
             Toast.makeText(getContext(), "Error while tweeting!", Toast.LENGTH_SHORT).show();
-            ProfileActivity.gettDialog().dismiss();
+            ProfileActivity.getDialog().dismiss();
         }
     }
 }
