@@ -26,7 +26,7 @@ public class UnfollowersActivity extends Activity {
         setContentView(R.layout.unfollowers_layout);
 
         listView = (ListView) findViewById(R.id.listView);
-        count = (TextView) findViewById(R.id.unfollowersCount);
+        count = (TextView) findViewById(R.id.countUnfollowers);
 
         count.setText("" + c.getCount());
 
