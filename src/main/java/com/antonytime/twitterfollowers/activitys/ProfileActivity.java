@@ -22,12 +22,12 @@ public class ProfileActivity extends Activity {
     private static ImageView prof_img;
     private static EditText tweet_text;
     private static Dialog tDialog;
+    public static DBHelper dbHelper;
+    public static SQLiteDatabase db;
     private Button unfollowers;
     private Button postTweet;
     private Button signout;
     private Button postTweetDialog;
-    public static DBHelper dbHelper;
-    public static SQLiteDatabase db;
 
     public static TextView getProf_name() {
         return prof_name;
@@ -45,7 +45,7 @@ public class ProfileActivity extends Activity {
         return tDialog;
     }
 
-    public ProfileActivity self(){
+    private ProfileActivity context() {
         return this;
     }
 
@@ -55,25 +55,24 @@ public class ProfileActivity extends Activity {
         setContentView(R.layout.profile_layout);
 
         prof_name = (TextView) findViewById(R.id.tvProfileName);
-        prof_img = (ImageView) findViewById(R.id.imageView);
+        prof_img = (ImageView) findViewById(R.id.imageViewProfile);
         unfollowers = (Button) findViewById(R.id.btnUnfollowers);
         postTweet = (Button) findViewById(R.id.btnPostTweet);
         signout = (Button) findViewById(R.id.btnLogout);
 
-        LoadProfile loadProfile = new LoadProfile();
-        loadProfile.setContext(this);
+        LoadProfile loadProfile = new LoadProfile(this);
         loadProfile.execute();
 
         dbHelper = new DBHelper(this);
         db = dbHelper.getWritableDatabase();
     }
 
-    public void onFollowers(View view){
+    public void onFollowers(View view) {
         Intent intent = new Intent(ProfileActivity.this, FollowersActivity.class);
         startActivity(intent);
     }
 
-    public void onUnfollowers(View view){
+    public void onUnfollowers(View view) {
         Intent intent = new Intent(ProfileActivity.this, UnfollowersActivity.class);
         startActivity(intent);
     }
@@ -82,14 +81,13 @@ public class ProfileActivity extends Activity {
         tDialog = new Dialog(ProfileActivity.this);
         tDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         tDialog.setContentView(R.layout.tweet_dialog_fragment);
-        tweet_text = (EditText)tDialog.findViewById(R.id.tweet_text);
-        postTweetDialog = (Button)tDialog.findViewById(R.id.btnPostTweetDialog);
+        tweet_text = (EditText) tDialog.findViewById(R.id.tweet_text);
+        postTweetDialog = (Button) tDialog.findViewById(R.id.btnPostTweetDialog);
 
         postTweetDialog.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PostTweet postTweet = new PostTweet();
-                postTweet.setContext(self());
+                PostTweet postTweet = new PostTweet(context());
                 postTweet.execute();
             }
         });

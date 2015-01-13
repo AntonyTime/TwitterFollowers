@@ -9,22 +9,18 @@ import twitter4j.TwitterException;
 
 public class PostTweet extends AsyncTask<String, String, String> {
 
-    private Context mContext;
+    private Context context;
     private ProgressDialog progress;
     private String tweetText;
 
-    public Context getContext() {
-        return mContext;
-    }
-
-    public void setContext(Context mContext) {
-        this.mContext = mContext;
+    public PostTweet(Context context){
+        this.context = context;
     }
 
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
-        progress = new ProgressDialog(getContext());
+        progress = new ProgressDialog(context);
         progress.setMessage("Posting tweet ...");
         progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         progress.setIndeterminate(true);
@@ -46,13 +42,13 @@ public class PostTweet extends AsyncTask<String, String, String> {
 
     @Override
     protected void onPostExecute(String res) {
-        if(res != null){
+        if (res != null) {
             progress.dismiss();
-            Toast.makeText(getContext(), "Tweet Sucessfully Posted", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Tweet Sucessfully Posted", Toast.LENGTH_SHORT).show();
             ProfileActivity.getDialog().dismiss();
-        }else{
+        } else {
             progress.dismiss();
-            Toast.makeText(getContext(), "Error while tweeting!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Error while tweeting!", Toast.LENGTH_SHORT).show();
             ProfileActivity.getDialog().dismiss();
         }
     }

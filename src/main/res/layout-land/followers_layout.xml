@@ -4,19 +4,32 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent" android:weightSum="1">
 
-    <TextView android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:text="@string/txt_followers"
-              android:id="@+id/txtUnfollowers"
-              android:textColor="#ff00abed"
-              android:textSize="30sp"
-              android:layout_gravity="center_horizontal"/>
+    <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:layout_gravity="center_horizontal">
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                  android:text="@string/txt_number_of_followers" android:id="@+id/textViewFollowers"
+                  android:textColor="#ff00abed" android:textSize="25dp" android:paddingLeft="15dp"
+                  android:paddingRight="15dp" android:layout_row="0" android:layout_column="0"/>
+        <TextView android:layout_width="377dp"
+                  android:layout_height="wrap_content"
+                  android:id="@+id/countFollowers"
+                  android:textColor="#ff00abed"
+                  android:textSize="25dp"
+                  android:paddingLeft="15dp"
+                  android:paddingRight="15dp"
+                  android:layout_row="0"
+                  android:layout_column="5"
+                  android:gravity="right"/>
+    </GridLayout>
     <ListView
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:id="@+id/followers_list"
+            android:layout_height="218dp"
+            android:id="@+id/listView"
             android:layout_gravity="center_horizontal"
-            android:paddingBottom="25dp" android:layout_weight="0.57"/>
+            android:paddingBottom="15dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp" android:layout_weight="0.56"/>
     <Button
             android:layout_width="320dp"
             android:layout_height="70dp"

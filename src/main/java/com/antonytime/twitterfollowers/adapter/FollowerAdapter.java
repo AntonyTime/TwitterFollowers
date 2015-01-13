@@ -18,7 +18,7 @@ import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FollowerAdapter extends BaseAdapter{
+public class FollowerAdapter extends BaseAdapter {
 
     private List<Follower> list;
     private LayoutInflater layoutInflater;
@@ -47,7 +47,7 @@ public class FollowerAdapter extends BaseAdapter{
     public View getView(int position, View convertView, ViewGroup parent) {
         View view = convertView;
 
-        if(view == null){
+        if (view == null) {
             view = layoutInflater.inflate(R.layout.item_layout, parent, false);
         }
 
@@ -61,26 +61,25 @@ public class FollowerAdapter extends BaseAdapter{
         String id = String.valueOf(follower.getId());
         textViewId.setText(id);
 
-        ImageView imageView = (ImageView) view.findViewById(R.id.prof_image);
+        ImageView imageViewUser = (ImageView) view.findViewById(R.id.profImage);
         Bitmap bitmap = getBitmap(follower.getId());
-        imageView.setImageBitmap(bitmap);
+        imageViewUser.setImageBitmap(bitmap);
 
         return view;
     }
 
-    private Follower getFollower(int position){
+    private Follower getFollower(int position) {
         return (Follower) getItem(position);
     }
 
-    public Bitmap getBitmap(long imageId) {
-
+    private Bitmap getBitmap(long imageId) {
         FileInputStream in;
         BufferedInputStream buf;
         Bitmap bMap = null;
 
         try {
             String root = Environment.getExternalStorageDirectory().toString();
-            in = new FileInputStream(root + "/TwitterFollowers/media/user photos/Image-"+ imageId + ".jpg");
+            in = new FileInputStream(root + "/TwitterFollowers/media/user photos/Image-" + imageId + ".jpg");
             buf = new BufferedInputStream(in);
             bMap = BitmapFactory.decodeStream(buf);
 
@@ -97,10 +96,10 @@ public class FollowerAdapter extends BaseAdapter{
         return circleImage(bMap);
     }
 
-    public Bitmap circleImage(Bitmap bitmap){
+    private Bitmap circleImage(Bitmap bitmap) {
         Bitmap image_circle = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.ARGB_8888);
 
-        BitmapShader shader = new BitmapShader (bitmap,  Shader.TileMode.CLAMP, Shader.TileMode.CLAMP);
+        BitmapShader shader = new BitmapShader(bitmap, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP);
         Paint paint = new Paint();
         paint.setShader(shader);
         Canvas c = new Canvas(image_circle);

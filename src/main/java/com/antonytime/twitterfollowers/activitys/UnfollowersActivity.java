@@ -13,7 +13,7 @@ import com.antonytime.twitterfollowers.asynctask.GettingUnfollowers;
 
 import java.util.ArrayList;
 
-public class UnfollowersActivity extends Activity  {
+public class UnfollowersActivity extends Activity {
 
     public ListView listView;
     public TextView count;
@@ -26,29 +26,28 @@ public class UnfollowersActivity extends Activity  {
         setContentView(R.layout.unfollowers_layout);
 
         listView = (ListView) findViewById(R.id.listView);
-        count = (TextView) findViewById(R.id.count);
+        count = (TextView) findViewById(R.id.unfollowersCount);
 
-        count.setText("Number of unfollowers: " + c.getCount());
+        count.setText("" + c.getCount());
 
         adapter = new FollowerAdapter(this, initDataListView());
         listView.setAdapter(adapter);
     }
 
-    private ArrayList<Follower> initDataListView(){
+    private ArrayList<Follower> initDataListView() {
         ArrayList<Follower> unfollowers = new ArrayList<Follower>();
 
         while (c.moveToNext()) {
             unfollowers.add(new Follower(c.getLong(0), c.getString(1)));
         }
 
-        count.setText("Number of unfollowers: " + c.getCount());
+        count.setText("" + c.getCount());
 
         return unfollowers;
     }
 
     public void onUpdateUnfollowers(View view) throws Exception {
-        GettingUnfollowers gettingUnfollowers = new GettingUnfollowers();
-        gettingUnfollowers.setContext(this);
+        GettingUnfollowers gettingUnfollowers = new GettingUnfollowers(this);
         gettingUnfollowers.execute();
     }
 

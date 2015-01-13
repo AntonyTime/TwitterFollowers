@@ -1,37 +1,38 @@
 package com.antonytime.twitterfollowers.asynctask;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import com.antonytime.twitterfollowers.activitys.ProfileActivity;
 import twitter4j.TwitterException;
 import twitter4j.auth.AccessToken;
+import twitter4j.auth.RequestToken;
 
 public class GettingAccessToken extends AsyncTask<String, String, Boolean> {
 
     public static AccessToken accessToken;
     private ProgressDialog progress;
-    private Context mContext;
+    private RequestToken requestToken;
+    private Activity activity;
+    private String oauth_verifier;
 
-    GettingToken gettingToken = new GettingToken();
-
-    public Context getContext() {
-        return mContext;
+    public GettingAccessToken(Activity activity) {
+        this.activity = activity;
     }
 
-    public void setContext(Context mContext) {
-        this.mContext = mContext;
+    public void setRequestToken(RequestToken requestToken) {
+        this.requestToken = requestToken;
     }
 
-    public void setGettingToken(GettingToken gettingToken) {
-        this.gettingToken = gettingToken;
+    public void setOauth_verifier(String oauth_verifier) {
+        this.oauth_verifier = oauth_verifier;
     }
 
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
-        progress = new ProgressDialog(getContext());
+        progress = new ProgressDialog(activity);
         progress.setMessage("Please wait ...");
         progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         progress.setIndeterminate(true);
@@ -41,7 +42,7 @@ public class GettingAccessToken extends AsyncTask<String, String, Boolean> {
     @Override
     protected Boolean doInBackground(String... strings) {
         try {
-            accessToken = GettingToken.getTwitter().getOAuthAccessToken(gettingToken.getRequestToken(), gettingToken.getoauthVerifier());
+            accessToken = GettingToken.getTwitter().getOAuthAccessToken(requestToken, oauth_verifier);
         } catch (TwitterException e) {
             e.printStackTrace();
         }
@@ -51,11 +52,12 @@ public class GettingAccessToken extends AsyncTask<String, String, Boolean> {
 
     @Override
     protected void onPostExecute(Boolean response) {
-        if(response){
+        if (response) {
             progress.dismiss();
 
-            Intent intent = new Intent(getContext(), ProfileActivity.class);
-            getContext().startActivity(intent);
+            Intent intent = new Intent(activity, ProfileActivity.class);
+            activity.startActivity(intent);
+            activity.finish();
         }
     }
 }

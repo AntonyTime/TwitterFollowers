@@ -26,13 +26,12 @@ public class FollowersActivity extends Activity {
         setContentView(R.layout.followers_layout);
 
         listView = (ListView) findViewById(R.id.listView);
-        count = (TextView) findViewById(R.id.count);
+        count = (TextView) findViewById(R.id.countFollowers);
 
-        count.setText("Number of followers: " + c.getCount());
+        count.setText("" + c.getCount());
 
         adapter = new FollowerAdapter(this, initDataListView());
         listView.setAdapter(adapter);
-
     }
 
     private ArrayList<Follower> initDataListView() {
@@ -42,14 +41,13 @@ public class FollowersActivity extends Activity {
             followers.add(new Follower(c.getLong(0), c.getString(1)));
         }
 
-        count.setText("Number of followers: " + c.getCount());
+        count.setText("" + c.getCount());
 
         return followers;
     }
 
     public void onUpdateFollowers(View view) throws Exception {
-        GettingFollowers gettingFollowers = new GettingFollowers();
-        gettingFollowers.setContext(this);
+        GettingFollowers gettingFollowers = new GettingFollowers(this);
         gettingFollowers.execute();
     }
 }

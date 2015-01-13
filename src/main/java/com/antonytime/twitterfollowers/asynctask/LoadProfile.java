@@ -12,23 +12,19 @@ import java.net.URL;
 
 public class LoadProfile extends AsyncTask<String, String, Bitmap> {
 
-    private Context mContext;
+    private Context context;
     private ProgressDialog progress;
     private Bitmap bitmap;
     private String name;
 
-    public Context getContext() {
-        return mContext;
-    }
-
-    public void setContext(Context mContext) {
-        this.mContext = mContext;
+    public LoadProfile(Context context){
+        this.context = context;
     }
 
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
-        progress = new ProgressDialog(getContext());
+        progress = new ProgressDialog(context);
         progress.setMessage("Loading Profile ...");
         progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         progress.setIndeterminate(true);
@@ -52,7 +48,7 @@ public class LoadProfile extends AsyncTask<String, String, Bitmap> {
     protected void onPostExecute(Bitmap image) {
         Bitmap image_circle = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.ARGB_8888);
 
-        BitmapShader shader = new BitmapShader (bitmap,  Shader.TileMode.CLAMP, Shader.TileMode.CLAMP);
+        BitmapShader shader = new BitmapShader(bitmap, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP);
         Paint paint = new Paint();
         paint.setShader(shader);
         Canvas c = new Canvas(image_circle);

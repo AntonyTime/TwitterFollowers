@@ -23,25 +23,20 @@ import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
 
-public class GettingFollowers extends AsyncTask <Void, Void, ArrayList<Follower>> {
+public class GettingFollowers extends AsyncTask<Void, Void, ArrayList<Follower>> {
 
     private ProgressDialog progress;
-    private Context mContext;
     private Bitmap bitmap;
+    private Context context;
 
-
-    public Context getContext() {
-        return mContext;
-    }
-
-    public void setContext(Context mContext) {
-        this.mContext = mContext;
+    public GettingFollowers(Context context){
+        this.context = context;
     }
 
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
-        progress = new ProgressDialog(getContext());
+        progress = new ProgressDialog(context);
         progress.setMessage("Please wait ...");
         progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         progress.setIndeterminate(true);
@@ -73,12 +68,12 @@ public class GettingFollowers extends AsyncTask <Void, Void, ArrayList<Follower>
             follower.setName(user.getScreenName());
 
             try {
-                bitmap = BitmapFactory.decodeStream((InputStream) new URL(user.getOriginalProfileImageURL()).getContent());
+                bitmap = BitmapFactory.decodeStream((InputStream) new URL(user.getBiggerProfileImageURL()).getContent());
             } catch (IOException e) {
                 e.printStackTrace();
             }
 
-            saveBitmap(bitmap,user.getId());
+            saveBitmap(bitmap, user.getId());
 
             followersListFromServer.add(follower);
         }
@@ -91,7 +86,7 @@ public class GettingFollowers extends AsyncTask <Void, Void, ArrayList<Follower>
         super.onPostExecute(result);
 
         try {
-            saveToDB(result, "followers", getContext());
+            saveToDB(result, "followers", context);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -99,19 +94,19 @@ public class GettingFollowers extends AsyncTask <Void, Void, ArrayList<Follower>
         progress.dismiss();
     }
 
-    public long saveBitmap(Bitmap bitmap,long imageId){
+    public long saveBitmap(Bitmap bitmap, long imageId) {
         String root = Environment.getExternalStorageDirectory().toString();
         File myDir = new File(root + "/TwitterFollowers/media/user photos");
         myDir.mkdirs();
 
-        String fname = "Image-"+ imageId++ +".jpg";
+        String imageName = "Image-" + imageId++ + ".jpg";
 
-        File file = new File (myDir, fname);
-        if (file.exists ()) file.delete ();
+        File file = new File(myDir, imageName);
+        if (file.exists()) file.delete();
 
         try {
             FileOutputStream out = new FileOutputStream(file);
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 10, out);
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
             out.flush();
             out.close();
 
@@ -130,8 +125,7 @@ public class GettingFollowers extends AsyncTask <Void, Void, ArrayList<Follower>
         SQLiteStatement statement = ProfileActivity.db.compileStatement(query);
 
 
-        for (Follower follower : dataList)
-        {
+        for (Follower follower : dataList) {
             statement.bindLong(1, follower.getId());
             statement.bindString(2, follower.getName());
             statement.execute();

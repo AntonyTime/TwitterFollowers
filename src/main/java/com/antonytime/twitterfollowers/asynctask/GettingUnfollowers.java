@@ -17,25 +17,21 @@ import twitter4j.User;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class GettingUnfollowers extends AsyncTask <Void, Void, ResponseList<User>> {
+public class GettingUnfollowers extends AsyncTask<Void, Void, ResponseList<User>> {
 
     private ProgressDialog progress;
-    private Context mContext;
+    private Context context;
     private final String FOLLOWERS_TABLE = "followers";
     private final String UNFOLLOWERS_TABLE = "unfollowers";
 
-    public Context getContext() {
-        return mContext;
-    }
-
-    public void setContext(Context mContext) {
-        this.mContext = mContext;
+    public GettingUnfollowers(Context context){
+        this.context = context;
     }
 
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
-        progress = new ProgressDialog(getContext());
+        progress = new ProgressDialog(context);
         progress.setMessage("Please wait ...");
         progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         progress.setIndeterminate(true);
@@ -76,12 +72,10 @@ public class GettingUnfollowers extends AsyncTask <Void, Void, ResponseList<User
         }
 
         try {
-
             ArrayList<Follower> followersListFromDataBase = getFollowersFromDB();
 
-            saveToDB(followersListFromServer, FOLLOWERS_TABLE, getContext());
-            saveToDB(findUnfollowers(followersListFromDataBase, followersListFromServer), UNFOLLOWERS_TABLE, getContext());
-
+            saveToDB(followersListFromServer, FOLLOWERS_TABLE, context);
+            saveToDB(findUnfollowers(followersListFromDataBase, followersListFromServer), UNFOLLOWERS_TABLE, context);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -107,16 +101,16 @@ public class GettingUnfollowers extends AsyncTask <Void, Void, ResponseList<User
     }
 
     public ArrayList<Follower> findUnfollowers(ArrayList<Follower> followersListFromDataBase, ArrayList<Follower> followersListFromServer) throws Exception {
-        ArrayList <Follower> result = new ArrayList<Follower>();
+        ArrayList<Follower> result = new ArrayList<Follower>();
 
         ArrayList<Long> db = new ArrayList<Long>();
         ArrayList<Long> sr = new ArrayList<Long>();
 
-        for(Follower follower : followersListFromDataBase){
+        for (Follower follower : followersListFromDataBase) {
             long longId = follower.getId();
             db.add(longId);
         }
-        for(Follower follower : followersListFromServer){
+        for (Follower follower : followersListFromServer) {
             long longId = follower.getId();
             sr.add(longId);
         }
@@ -124,8 +118,8 @@ public class GettingUnfollowers extends AsyncTask <Void, Void, ResponseList<User
         db.removeAll(sr);
 
         for (Long ld : db) {
-            for (Follower follower : followersListFromDataBase){
-                if(ld.equals(follower.getId())){
+            for (Follower follower : followersListFromDataBase) {
+                if (ld.equals(follower.getId())) {
                     result.add(follower);
                 }
             }
@@ -142,8 +136,7 @@ public class GettingUnfollowers extends AsyncTask <Void, Void, ResponseList<User
         SQLiteStatement statement = ProfileActivity.db.compileStatement(query);
 
 
-        for (Follower follower : dataList)
-        {
+        for (Follower follower : dataList) {
             statement.bindLong(1, follower.getId());
             statement.bindString(2, follower.getName());
             statement.execute();

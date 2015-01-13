@@ -9,7 +9,6 @@
         android:icon="@drawable/ic_launcher"
         android:theme="@style/AppTheme">
 
-
         <activity android:name=".activitys.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>

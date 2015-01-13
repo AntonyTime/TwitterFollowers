@@ -1,8 +1,8 @@
 package com.antonytime.twitterfollowers.asynctask;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -24,41 +24,25 @@ import twitter4j.conf.ConfigurationBuilder;
 public class GettingToken extends AsyncTask<String, String, String> {
 
     private static Twitter twitter = new TwitterFactory().getInstance();
+    private ProgressDialog progress;
     private RequestToken requestToken;
+    private Activity activity;
+    private Dialog auth_dialog;
     private String oauth_url;
     private String oauth_verifier;
-    private Dialog auth_dialog;
-    private Context mContext;
-    private ProgressDialog progress;
-
-    public RequestToken getRequestToken() {
-        return requestToken;
-    }
-
-    public String getoauthVerifier() {
-        return oauth_verifier;
-    }
 
     public static Twitter getTwitter() {
         return twitter;
     }
 
-    public Context getContext() {
-        return mContext;
-    }
-
-    public void setContext(Context mContext) {
-        this.mContext = mContext;
-    }
-
-    public GettingToken self(){
-        return this;
+    public GettingToken(Activity activity) {
+        this.activity = activity;
     }
 
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
-        progress = new ProgressDialog(getContext());
+        progress = new ProgressDialog(activity);
         progress.setMessage("Please wait ...");
         progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         progress.setIndeterminate(true);
@@ -80,14 +64,15 @@ public class GettingToken extends AsyncTask<String, String, String> {
         } catch (TwitterException e) {
             e.printStackTrace();
         }
+
         return oauth_url;
     }
 
     @Override
     protected void onPostExecute(String oauth_url) {
-        if(oauth_url != null){
+        if (oauth_url != null) {
             Log.e("URL", oauth_url);
-            auth_dialog = new Dialog(getContext());
+            auth_dialog = new Dialog(activity);
             auth_dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
             auth_dialog.setContentView(R.layout.auth_dialog_fragment);
 
@@ -113,24 +98,24 @@ public class GettingToken extends AsyncTask<String, String, String> {
 
                         auth_dialog.dismiss();
 
-                        GettingAccessToken gettingAccessToken = new GettingAccessToken();
-                        gettingAccessToken.setContext(getContext());
-                        gettingAccessToken.setGettingToken(self());
+                        GettingAccessToken gettingAccessToken = new GettingAccessToken(activity);
+                        gettingAccessToken.setRequestToken(requestToken);
+                        gettingAccessToken.setOauth_verifier(oauth_verifier);
                         gettingAccessToken.execute();
-
                     } else if (url.contains("denied")) {
                         auth_dialog.dismiss();
-                        Toast.makeText(getContext(), "Sorry !, Permission Denied", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(activity, "Sorry !, Permission Denied", Toast.LENGTH_SHORT).show();
                     }
                 }
             });
+
             progress.dismiss();
             auth_dialog.show();
             auth_dialog.setCancelable(true);
-        }else{
+        } else {
             SystemClock.sleep(1000);
             progress.dismiss();
-            Toast.makeText(getContext(), "Sorry !, Network Error or Invalid Credentials", Toast.LENGTH_SHORT).show();
+            Toast.makeText(activity, "Sorry !, Network Error or Invalid Credentials", Toast.LENGTH_SHORT).show();
         }
     }
 }

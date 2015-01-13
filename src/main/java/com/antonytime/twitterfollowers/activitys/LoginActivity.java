@@ -20,8 +20,7 @@ public class LoginActivity extends Activity {
     }
 
     public void login(View view) {
-        GettingToken gettingToken = new GettingToken();
-        gettingToken.setContext(this);
+        GettingToken gettingToken = new GettingToken(this);
         gettingToken.execute();
     }
 }

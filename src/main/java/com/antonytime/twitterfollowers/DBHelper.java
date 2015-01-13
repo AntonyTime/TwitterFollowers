@@ -17,8 +17,8 @@ public class DBHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         Log.d(LOG_TAG, "--- Created database ---");
 
-        db.execSQL("CREATE TABLE if not exists 'followers' ('id' INTEGER PRIMARY KEY NOT NULL, 'name' STRING);");
-        db.execSQL("CREATE TABLE if not exists 'unfollowers' ('id' INTEGER PRIMARY KEY NOT NULL, 'name' STRING);");
+        db.execSQL("CREATE TABLE IF NOT EXISTS 'followers' ('id' INTEGER PRIMARY KEY NOT NULL, 'name' STRING);");
+        db.execSQL("CREATE TABLE IF NOT EXISTS 'unfollowers' ('id' INTEGER PRIMARY KEY NOT NULL, 'name' STRING);");
     }
 
     @Override
