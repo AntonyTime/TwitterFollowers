@@ -2,15 +2,19 @@ package com.antonytime.twitterfollowers.asynctask;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteStatement;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Environment;
 import android.view.Gravity;
+import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 import com.antonytime.twitterfollowers.Follower;
 import com.antonytime.twitterfollowers.activitys.ProfileActivity;
+import com.antonytime.twitterfollowers.adapter.FollowerAdapter;
 import twitter4j.IDs;
 import twitter4j.ResponseList;
 import twitter4j.TwitterException;
@@ -25,12 +29,18 @@ import java.util.ArrayList;
 
 public class GettingFollowers extends AsyncTask<Void, Void, ArrayList<Follower>> {
 
+    private final TextView count;
+    private final ListView listView;
+    private final Context context;
     private ProgressDialog progress;
     private Bitmap bitmap;
-    private Context context;
+    private FollowerAdapter adapter;
 
-    public GettingFollowers(Context context){
+
+    public GettingFollowers(Context context, ListView listView, TextView count){
         this.context = context;
+        this.listView = listView;
+        this.count = count;
     }
 
     @Override
@@ -91,6 +101,8 @@ public class GettingFollowers extends AsyncTask<Void, Void, ArrayList<Follower>>
             e.printStackTrace();
         }
 
+        updateListView();
+
         progress.dismiss();
     }
 
@@ -136,4 +148,18 @@ public class GettingFollowers extends AsyncTask<Void, Void, ArrayList<Follower>>
         toast.show();
     }
 
+    public void updateListView(){
+        Cursor c = ProfileActivity.db.query("followers", null, null, null, null, null, null);
+
+        ArrayList<Follower> followers = new ArrayList<Follower>();
+
+        while (c.moveToNext()) {
+            followers.add(new Follower(c.getLong(0), c.getString(1)));
+        }
+
+        count.setText("" + c.getCount());
+
+        adapter = new FollowerAdapter(context, followers);
+        listView.setAdapter(adapter);
+    }
 }

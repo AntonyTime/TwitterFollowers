@@ -6,9 +6,12 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteStatement;
 import android.os.AsyncTask;
 import android.view.Gravity;
+import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 import com.antonytime.twitterfollowers.Follower;
 import com.antonytime.twitterfollowers.activitys.ProfileActivity;
+import com.antonytime.twitterfollowers.adapter.FollowerAdapter;
 import twitter4j.IDs;
 import twitter4j.ResponseList;
 import twitter4j.TwitterException;
@@ -19,13 +22,18 @@ import java.util.ArrayList;
 
 public class GettingUnfollowers extends AsyncTask<Void, Void, ResponseList<User>> {
 
-    private ProgressDialog progress;
-    private Context context;
+    private final ListView listView;
+    private final TextView count;
     private final String FOLLOWERS_TABLE = "followers";
     private final String UNFOLLOWERS_TABLE = "unfollowers";
+    private final Context context;
+    private ProgressDialog progress;
+    private FollowerAdapter adapter;
 
-    public GettingUnfollowers(Context context){
+    public GettingUnfollowers(Context context, ListView listView, TextView count){
         this.context = context;
+        this.listView = listView;
+        this.count = count;
     }
 
     @Override
@@ -79,6 +87,8 @@ public class GettingUnfollowers extends AsyncTask<Void, Void, ResponseList<User>
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        updateListView();
 
         progress.dismiss();
     }
@@ -145,6 +155,21 @@ public class GettingUnfollowers extends AsyncTask<Void, Void, ResponseList<User>
         Toast toast = Toast.makeText(context, "Done!", Toast.LENGTH_SHORT);
         toast.setGravity(Gravity.CENTER, 0, 0);
         toast.show();
+    }
+
+    public void updateListView(){
+        Cursor c = ProfileActivity.db.query("unfollowers", null, null, null, null, null, null);
+
+        ArrayList<Follower> followers = new ArrayList<Follower>();
+
+        while (c.moveToNext()) {
+            followers.add(new Follower(c.getLong(0), c.getString(1)));
+        }
+
+        count.setText("" + c.getCount());
+
+        adapter = new FollowerAdapter(context, followers);
+        listView.setAdapter(adapter);
     }
 
 }
